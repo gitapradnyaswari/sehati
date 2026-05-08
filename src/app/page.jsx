@@ -1,8 +1,5 @@
 // ============================================================
 // app/page.jsx — Halaman Beranda SEHATi
-// Server Component: komponen ini dirender di server (bukan browser),
-// sehingga data SPARQL di-fetch sebelum HTML dikirim ke klien.
-// SEHATi = Sistem Pencarian Layanan Rumah Sakit Provinsi Bali
 // ============================================================
 
 import Link from 'next/link'
@@ -159,14 +156,14 @@ async function getStats() {
       { value: layanan > 0     ? `${layanan}`                        : '—', label: 'Layanan Rumah Sakit' },
       { value: rs > 0          ? String(rs)                          : '—', label: 'Rumah Sakit' },
       { value: individuals > 0 ? individuals.toLocaleString('id-ID') : '—', label: 'Data Terstruktur' },
-      { value: '24/7',                                                       label: 'Akses Informasi' },
+      { value: 'Bali', label: 'Cakupan Wilayah' },
     ]
   } catch {
     return [
-      { value: '42+', label: 'Layanan Rumah Sakit' },
-      { value: '2',   label: 'Rumah Sakit' },
-      { value: '528', label: 'Data Terstruktur' },
-      { value: '24/7', label: 'Akses Informasi' },
+      { value: '42+',  label: 'Layanan Rumah Sakit' },
+      { value: '2',    label: 'Rumah Sakit' },
+      { value: '528',  label: 'Data Terstruktur' },
+      { value: 'Bali', label: 'Cakupan Wilayah' },
     ]
   }
 }
@@ -245,13 +242,12 @@ export default async function HomePage() {
               <em className="italic text-[#7de8c2]">jalani dengan lebih tenang.</em>
             </h1>
 
-            {/* body text hero: 13px selaras dengan halaman cari */}
             <p className="text-[rgba(238,247,244,0.62)] font-light leading-[1.82] mb-8 text-[13px]">
               SEHATi membantu pasien dan calon pasien memahami informasi layanan
               rumah sakit sebelum berkunjung mulai dari prosedur, persiapan dokumen,
               hingga panduan setelah layanan. SEHATi adalah sumber informasi,{' '}
-              <strong className="text-[rgba(238,247,244,0.82)] font-medium">
-                bukan sistem diagnosis dan tidak menentukan layanan yang harus dijalani.
+              <strong className="text-[rgba(238,247,244,0.62)] font-medium"><em>bukan sistem diagnosis dan tidak
+                menentukan layanan yang harus dijalani</em>
               </strong>
             </p>
 
@@ -307,7 +303,6 @@ export default async function HomePage() {
               <div>
                 <div className="w-10 h-0.75 rounded-sm mb-6"
                   style={{ background: 'linear-gradient(90deg, #1a6fa8, #2aab7e)' }} />
-                {/* body text diselaraskan ke 14px */}
                 <p className="text-[14px] leading-[1.84] text-[#4f6370] font-light mb-5">
                   <strong className="text-[#0e2233] font-medium">SEHATi</strong> atau{' '}
                   <em>Sistem Pencarian Layanan Rumah Sakit Provinsi Bali</em> adalah
@@ -319,9 +314,12 @@ export default async function HomePage() {
                 <div className="w-10 h-0.75 rounded-sm mb-6"
                   style={{ background: 'linear-gradient(90deg, #1a6fa8, #2aab7e)' }} />
                 <p className="text-[14px] leading-[1.84] text-[#4f6370] font-light mb-5">
-                  SEHATi <strong className="text-[#0e2233] font-medium">bukan sistem diagnosis</strong> dan
-                  tidak menentukan layanan yang harus dijalani. Keputusan mengenai layanan
-                  rumah sakit yang perlu dijalani tetap berada di tangan tenaga kesehatan yang berwenang.
+                  SEHATi{' '}
+                  <strong className="text-[#0e2233] font-medium">
+                    <em>bukan sistem diagnosis dan tidak menentukan layanan yang harus dijalani</em>
+                  </strong>
+                  . Keputusan mengenai layanan rumah sakit yang perlu dijalani tetap berada di
+                  tangan tenaga kesehatan yang berwenang.
                 </p>
               </div>
             </div>
@@ -609,9 +607,6 @@ export default async function HomePage() {
           }}
         />
         <div className="relative z-10 max-w-150 mx-auto px-5 md:px-8">
-          <p className="text-[11px] font-medium tracking-[0.14em] uppercase text-[#7de8c2] mb-5">
-            Mulai Sekarang
-          </p>
           <h2 className="font-medium text-[#eef7f4] leading-[1.15] tracking-tight mb-5 text-[clamp(26px,4.5vw,50px)]"
               style={{ fontFamily: "'Playfair Display', serif" }}>
             Kenali layanannya,<br />

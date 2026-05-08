@@ -10,7 +10,6 @@ import {
   CheckCircle2, XCircle, AlertTriangle, HelpCircle,
 } from 'lucide-react'
 import { JENIS_WARNA } from '@/lib/constants'
-import SparqlPanel from '@/components/SparqlPanel'
 
 const TABS = [
   { id: 'info',      label: 'Informasi Medis', icon: Info },
@@ -98,7 +97,6 @@ export default function LayananDetailPage() {
   const [tab, setTab]             = useState('info')
   const [data, setData]           = useState(null)
   const [loading, setLoading]     = useState(true)
-  const [debug, setDebug]         = useState(null)
   const [daftarRS, setDaftarRS]   = useState([])
   const [loadingRS, setLoadingRS] = useState(false)
   const [showModal, setShowModal] = useState(false)
@@ -110,7 +108,6 @@ export default function LayananDetailPage() {
       .then(r => r.json())
       .then(d => {
         setData(d)
-        setDebug(d.sparqlDebug || null)
         setLoading(false)
       })
       .catch(() => setLoading(false))
@@ -127,26 +124,11 @@ export default function LayananDetailPage() {
     }
   }
 
-  // ─────────────────────────────────────────────────────────
-  // handleKlikCarePath()
-  // Dipanggil saat pengguna klik node sebelum/sesudah di
-  // care path. Menyimpan kode layanan SAAT INI ke sessionStorage
-  // sebagai "asal", sehingga tombol Kembali di halaman berikutnya
-  // bisa kembali ke layanan ini (bukan ke halaman pencarian).
-  // ─────────────────────────────────────────────────────────
   const handleKlikCarePath = () => {
     sessionStorage.setItem('carepath_dari', kode)
     sessionStorage.setItem('carepath_rs', rsDariURL)
   }
 
-  // ─────────────────────────────────────────────────────────
-  // handleKembali()
-  // Urutan prioritas:
-  //   1. Jika datang dari care path → kembali ke layanan asal
-  //   2. Jika datang dari halaman Cari → kembali ke /cari
-  //   3. Jika datang dari halaman Jelajahi → kembali ke /jelajahi
-  //   4. Fallback → browser history back
-  // ─────────────────────────────────────────────────────────
   const handleKembali = () => {
     const dariCarePath   = sessionStorage.getItem('carepath_dari')
     const dariCarePathRS = sessionStorage.getItem('carepath_rs') || 'RSBM'
@@ -154,7 +136,6 @@ export default function LayananDetailPage() {
     const dariJelajahi   = sessionStorage.getItem('jelajahi_dari_detail') === 'true'
 
     if (dariCarePath) {
-      // Hapus flag agar tidak mempengaruhi navigasi berikutnya
       sessionStorage.removeItem('carepath_dari')
       sessionStorage.removeItem('carepath_rs')
       window.location.href = `/layanan/${dariCarePath}?rs=${dariCarePathRS}`
@@ -417,7 +398,6 @@ export default function LayananDetailPage() {
       {/* KONTEN TAB */}
       <div className="flex flex-col gap-2.5">
 
-        {/* TAB: INFORMASI MEDIS */}
         {tab === 'info' && (<>
 
           {univ.tujuanLayanan && (
@@ -560,7 +540,6 @@ export default function LayananDetailPage() {
           )}
         </>)}
 
-        {/* TAB: INFO RS */}
         {tab === 'rs' && (<>
           <div className="grid sm:grid-cols-2 gap-2">
             <InfoItem label="Instalasi/Unit"     value={spesifik.namaUnit} />
@@ -625,7 +604,6 @@ export default function LayananDetailPage() {
           )}
         </>)}
 
-        {/* TAB: PERSIAPAN */}
         {tab === 'persiapan' && (<>
           <ChecklistGroup title="Dokumen Administrasi"     items={dokumen.administrasi}  color="blue" />
           <ChecklistGroup title="Dokumen Penunjang"        items={dokumen.penunjang}      color="purple" />
@@ -644,7 +622,6 @@ export default function LayananDetailPage() {
           )}
         </>)}
 
-        {/* TAB: PASCALAYANAN */}
         {tab === 'pasca' && (<>
           {instruksi.instruksi?.length > 0 && (
             <Section title="Instruksi Setelah Tindakan">
@@ -685,8 +662,6 @@ export default function LayananDetailPage() {
           {(carePath.sebelum.length > 0 || carePath.sesudah.length > 0) && (
             <Section title="Jalur Perawatan (Smart Care Path)">
               <div className="flex items-center gap-2 overflow-x-auto pb-2">
-
-                {/* Node SEBELUM — onClick menyimpan layanan saat ini sebagai asal */}
                 {carePath.sebelum.map(s => {
                   const kodeS = ekstrakKode(s.iri)
                   return (
@@ -704,7 +679,6 @@ export default function LayananDetailPage() {
 
                 {carePath.sebelum.length > 0 && <ArrowRight size={16} className="text-[#8fa3b0] shrink-0" />}
 
-                {/* Node layanan aktif saat ini */}
                 <div className="shrink-0 flex flex-col items-center gap-1 px-4 py-3 bg-[#2aab7e] border border-[#2aab7e] rounded-xl min-w-27.5 text-center">
                   <span className="text-[11px] text-white opacity-70">Layanan Ini</span>
                   <span className="text-[12px] font-medium text-white">{univ.namaLayanan}</span>
@@ -712,7 +686,6 @@ export default function LayananDetailPage() {
 
                 {carePath.sesudah.length > 0 && <ArrowRight size={16} className="text-[#8fa3b0] shrink-0" />}
 
-                {/* Node SESUDAH — onClick menyimpan layanan saat ini sebagai asal */}
                 {carePath.sesudah.map(s => {
                   const kodeS = ekstrakKode(s.iri)
                   return (
@@ -727,7 +700,6 @@ export default function LayananDetailPage() {
                     </Link>
                   )
                 })}
-
               </div>
             </Section>
           )}
@@ -753,8 +725,6 @@ export default function LayananDetailPage() {
           </div>
         </div>
       </div>
-
-      <SparqlPanel debug={debug} />
 
       {/* MODAL: TINJAU DI RS LAIN */}
       {showModal && (
@@ -801,7 +771,7 @@ export default function LayananDetailPage() {
             {daftarRS.length > 1 && (
               <div className="pt-3 border-t border-[#eaf1f4]">
                 <p className="text-[12px] text-[#8fa3b0] m-0">
-                  Ingin melihat semua RS berdampingan?{' '}
+                  Ingin melihat semua rumah sakit?{' '}
                   <Link
                     href={`/tinjau/${kode}`}
                     onClick={() => setShowModal(false)}

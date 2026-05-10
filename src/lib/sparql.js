@@ -134,7 +134,7 @@ function buildQueryRS(suffix, keyword, filters) {
     REGEX(STR(?namaLayanan), "${keyword.trim().replace(/"/g, '')}", "i") ||
     REGEX(STR(?optNamaLain), "${keyword.trim().replace(/"/g, '')}", "i") ||
     REGEX(STR(?optNamaKeluhan), "${keyword.trim().replace(/"/g, '')}", "i") ||
-    REGEX(STR(?optDeskripsi), "${keyword.trim().replace(/"/g, '')}", "i")
+    REGEX(STR(?optNamaKondisi), "${keyword.trim().replace(/"/g, '')}", "i")
   )` : ''
 
   const needsWilayah = !!filters.wilayah?.length
@@ -142,7 +142,7 @@ function buildQueryRS(suffix, keyword, filters) {
   return `
 SELECT DISTINCT
   ?univ ?namaLayanan ?optDeskripsi ?jenisLayanan
-  ?optNamaLain ?optNamaKeluhan
+  ?optNamaLain ?optNamaKeluhan ?optNamaKondisi
   ?namaRS ?jenisRSClass
   ?kelompokVal ?penjaminanVal
 WHERE {
@@ -158,6 +158,10 @@ WHERE {
   OPTIONAL {
     ?univ ont:terkaitDenganKeluhan ?klu .
     ?klu ont:namaKeluhan ?optNamaKeluhan
+  }
+  OPTIONAL {
+    ?univ ont:memilikiBatasanKondisi ?kond .
+    ?kond ont:namaKondisi ?optNamaKondisi
   }
 
   ?rs a owl:NamedIndividual .

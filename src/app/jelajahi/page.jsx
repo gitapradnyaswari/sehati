@@ -1,5 +1,8 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
+
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { Loader2, Search, X, ChevronDown, Stethoscope, Users, CreditCard, MessageCircle, Heart, MapPin } from 'lucide-react'

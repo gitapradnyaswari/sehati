@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 // app/darurat/page.jsx
 
 import { getDataDaruratWithDebug } from '@/lib/sparql'

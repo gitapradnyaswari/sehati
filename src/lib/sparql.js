@@ -326,7 +326,7 @@ WHERE {
 SELECT ?namaUnit ?namaTenaga ?jadwalOperasional ?waktuKedatangan
        ?durasiTindakan ?durasiObservasi ?durasiPersiapan
        ?persetujuanTindakan ?perluRujukan ?keteranganRujukan
-       ?tahapanLayanan ?jadwalKontrol ?namaKontrolUnit
+       ?tahapanLayanan ?jadwalKontrol
        ?kelompok ?penjaminan ?namaRS
 WHERE {
   VALUES ?layanan { ont:${kode}_${suffix} }
@@ -342,7 +342,6 @@ WHERE {
   OPTIONAL { ?layanan ont:keteranganRujukan ?keteranganRujukan }
   OPTIONAL { ?layanan ont:tahapanLayanan ?tahapanLayanan }
   OPTIONAL { ?layanan ont:jadwalKontrol ?jadwalKontrol }
-  OPTIONAL { ?layanan ont:melakukanKontrolKe ?unitKontrol . ?unitKontrol ont:namaUnit ?namaKontrolUnit }
   OPTIONAL { ?layanan ont:ditujukanUntukKelompok ?kelompokInd .
              BIND(REPLACE(STR(?kelompokInd), ".*#", "") AS ?kelompok) }
   OPTIONAL { ?layanan ont:tersediaUntukPenjaminan ?penjaminanInd .
@@ -351,13 +350,12 @@ WHERE {
 }`
 
   const qRisiko = `
-SELECT ?namaRisiko ?deskripsiRisiko ?tipeRisiko
+SELECT ?namaRisiko ?tipeRisiko
 WHERE {
   VALUES ?layanan { ont:${kode}_UNIV }
   ?layanan ont:memilikiPotensiRisiko ?risiko .
   ?risiko a ?tipe .
   ?risiko ont:namaRisiko ?namaRisiko .
-  OPTIONAL { ?risiko ont:deskripsiRisiko ?deskripsiRisiko }
   BIND(REPLACE(STR(?tipe), ".*#", "") AS ?tipeRisiko)
   FILTER(?tipe != owl:NamedIndividual)
 }`

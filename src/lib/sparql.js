@@ -79,7 +79,7 @@ function buildQueryRS(suffix, keyword, filters) {
   const parts = []
 
   if (filters.keluhan?.length) {
-    const iris = filters.keluhan.map(k => `ont:${k}`).join(' ')
+    const iris = filters.keluhan.map(k => `ont:${k}`).join(', ')
     parts.push(`
   {
     SELECT DISTINCT ?univ WHERE {
@@ -90,7 +90,7 @@ function buildQueryRS(suffix, keyword, filters) {
   }
 
   if (filters.kondisi?.length) {
-    const iris = filters.kondisi.map(k => `ont:${k}`).join(' ')
+    const iris = filters.kondisi.map(k => `ont:${k}`).join(', ')
     parts.push(`
   {
     SELECT DISTINCT ?univ WHERE {

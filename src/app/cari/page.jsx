@@ -5,7 +5,7 @@ import { Search, Filter, X, ChevronDown, ChevronLeft, ChevronRight, Loader2, Che
 import { JENIS_LAYANAN, KELOMPOK, PENJAMINAN } from '@/lib/constants'
 import LayananCard from '@/components/LayananCard'
 
-const PER_PAGE = 10
+const PER_PAGE = 12
 
 const SS = {
   keyword:    'cari_keyword',

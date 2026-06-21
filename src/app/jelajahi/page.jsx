@@ -9,7 +9,7 @@ import { Loader2, Search, X, ChevronDown, ChevronLeft, ChevronRight, Stethoscope
 import { JENIS_LAYANAN, KELOMPOK, PENJAMINAN } from '@/lib/constants'
 import LayananCard from '@/components/LayananCard'
 
-const PER_PAGE = 10
+const PER_PAGE = 12
 
 const EMPTY_FILTERS = {
   jenis:      null,

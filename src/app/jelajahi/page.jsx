@@ -5,9 +5,11 @@ export const dynamic = 'force-dynamic'
 
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { createPortal } from 'react-dom'
-import { Loader2, Search, X, ChevronDown, Stethoscope, Users, CreditCard, MessageCircle, Heart, MapPin } from 'lucide-react'
+import { Loader2, Search, X, ChevronDown, ChevronLeft, ChevronRight, Stethoscope, Users, CreditCard, MessageCircle, Heart, MapPin } from 'lucide-react'
 import { JENIS_LAYANAN, KELOMPOK, PENJAMINAN } from '@/lib/constants'
 import LayananCard from '@/components/LayananCard'
+
+const PER_PAGE = 10
 
 const EMPTY_FILTERS = {
   jenis:      null,
@@ -209,6 +211,7 @@ export default function JelajahiPage() {
   const [results, setResults]         = useState([])
   const [loading, setLoading]         = useState(false)
   const [searched, setSearched]       = useState(false)
+  const [page, setPage]               = useState(1)
 
   useEffect(() => {
     fetch('/api/sparql?action=filter-opsi')
@@ -261,6 +264,9 @@ export default function JelajahiPage() {
     fetchResults(EMPTY_FILTERS)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Reset ke halaman 1 setiap kali hasil pencarian berubah
+  useEffect(() => { setPage(1) }, [results])
+
   const handleChange = (key, nilai) => {
     const next = { ...EMPTY_FILTERS, [key]: nilai }
     setFilters(next)
@@ -272,6 +278,15 @@ export default function JelajahiPage() {
       sessionStorage.removeItem('jelajahi_filter')
     }
     fetchResults(next)
+  }
+
+  // ── Pagination ──
+  const totalPages = Math.max(1, Math.ceil(results.length / PER_PAGE))
+  const paginated  = results.slice((page - 1) * PER_PAGE, page * PER_PAGE)
+
+  const goToPage = (p) => {
+    setPage(Math.min(Math.max(1, p), totalPages))
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const DROPDOWNS = [
@@ -339,16 +354,56 @@ export default function JelajahiPage() {
           </div>
         ) : results.length > 0 ? (
           <>
-            <p className="text-[12px] text-[#8fa3b0] mb-4">{results.length} layanan ditemukan</p>
+            <p className="text-[12px] text-[#8fa3b0] mb-4">
+              {results.length} layanan ditemukan
+              <span className="text-[#b0c8d4]">
+                {' '}· menampilkan {(page - 1) * PER_PAGE + 1}–{Math.min(page * PER_PAGE, results.length)}
+              </span>
+            </p>
+
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {results.map((item, i) => (
+              {paginated.map((item, i) => (
                 <LayananCard
-                  key={`${item.kodeUniv}_${item.suffix}_${i}`}
+                  key={`${item.kodeUniv}_${item.suffix}_${(page - 1) * PER_PAGE + i}`}
                   item={item}
                   onClick={() => sessionStorage.setItem('jelajahi_dari_detail', 'true')}
                 />
               ))}
             </div>
+
+            {totalPages > 1 && (
+              <div className="flex items-center justify-center gap-1.5 mt-8 flex-wrap">
+                <button
+                  onClick={() => goToPage(page - 1)}
+                  disabled={page === 1}
+                  className="flex items-center gap-1 px-3 py-2 rounded-lg border border-[#dde8ec] text-[12px] text-[#4f6370] hover:border-[#b0c8d4] hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                >
+                  <ChevronLeft size={14} /> Sebelumnya
+                </button>
+
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
+                  <button
+                    key={p}
+                    onClick={() => goToPage(p)}
+                    className={`w-9 h-9 rounded-lg text-[12px] font-medium transition-colors ${
+                      p === page
+                        ? 'bg-[#2aab7e] text-white'
+                        : 'border border-[#dde8ec] text-[#4f6370] hover:border-[#b0c8d4] hover:bg-white'
+                    }`}
+                  >
+                    {p}
+                  </button>
+                ))}
+
+                <button
+                  onClick={() => goToPage(page + 1)}
+                  disabled={page === totalPages}
+                  className="flex items-center gap-1 px-3 py-2 rounded-lg border border-[#dde8ec] text-[12px] text-[#4f6370] hover:border-[#b0c8d4] hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                >
+                  Berikutnya <ChevronRight size={14} />
+                </button>
+              </div>
+            )}
           </>
         ) : (
           <div className="flex flex-col items-center justify-center py-14 gap-2 text-[#8fa3b0]">

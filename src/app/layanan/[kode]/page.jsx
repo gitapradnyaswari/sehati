@@ -314,7 +314,6 @@ export default function LayananDetailPage() {
   return (
     <div className="max-w-210 mx-auto px-3 sm:px-5 py-6 pb-16">
 
-      {/* BREADCRUMB */}
       <div className="flex items-center gap-2 text-xs text-[#8fa3b0] mb-4">
         <button
           onClick={handleKembali}
@@ -326,7 +325,6 @@ export default function LayananDetailPage() {
         <span className="text-[#0e2233] font-medium truncate max-w-xs">{univ.namaLayanan}</span>
       </div>
 
-      {/* HEADER CARD */}
       <div className="bg-white border border-[#dde8ec] rounded-xl p-4 sm:p-5 mb-4">
         <div className="flex items-start justify-between gap-3 flex-wrap mb-3">
           <div className="flex-1 min-w-0">
@@ -373,7 +371,6 @@ export default function LayananDetailPage() {
         </div>
       </div>
 
-      {/* TABS */}
       <div className="flex gap-0.5 bg-[#f7fafa] border border-[#dde8ec] rounded-lg p-0.5 mb-4 overflow-x-auto">
         {TABS.map(t => {
           const Icon     = t.icon
@@ -395,7 +392,6 @@ export default function LayananDetailPage() {
         })}
       </div>
 
-      {/* KONTEN TAB */}
       <div className="flex flex-col gap-2.5">
 
         {tab === 'info' && (<>
@@ -707,7 +703,6 @@ export default function LayananDetailPage() {
 
       </div>
 
-      {/* CATATAN PENTING */}
       <div className="bg-[#fffbf0] border border-[#e8d48a] rounded-xl px-4 py-3.5 mt-4">
         <div className="flex items-start gap-3">
           <div className="shrink-0 w-7 h-7 bg-[#f5d76e] rounded-full flex items-center justify-center text-[#7a5800]">
@@ -726,7 +721,6 @@ export default function LayananDetailPage() {
         </div>
       </div>
 
-      {/* MODAL: TINJAU DI RS LAIN */}
       {showModal && (
         <div
           className="fixed inset-0 bg-[rgba(13,31,45,0.5)] z-300 flex items-center justify-center p-4 sm:p-6"

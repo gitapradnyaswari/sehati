@@ -9,8 +9,6 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX owl: <http://www.w3.org/2002/07/owl#>
 `
 
-// ── Core ─────────────────────────────────────────────────
-
 export async function sparql(query) {
   try {
     const res = await fetch(ENDPOINT, {
@@ -50,8 +48,6 @@ export async function sparqlWithDebug(query) {
   }
 }
 
-// ── Helpers ───────────────────────────────────────────────
-
 export function val(binding, key) {
   return (binding?.[key]?.value || '').replace(/;/g, ',')
 }
@@ -72,8 +68,6 @@ export function sortTahapan(arr) {
 function formatNamaWilayah(nama) {
   return nama.replace(/([A-Z])/g, ' $1').trim()
 }
-
-// ── F1: Pencarian Layanan ─────────────────────────────────
 
 function buildQueryRS(suffix, keyword, filters) {
   const parts = []
@@ -247,8 +241,6 @@ export async function getAllLayananPerRSWithDebug() {
   return cariLayananPerRSWithDebug('', {})
 }
 
-// ── F2: Opsi Filter ───────────────────────────────────────
-
 export async function getOpsiFilterWithDebug() {
   const qKeluhan = `
 SELECT DISTINCT ?iri ?nama WHERE {
@@ -297,8 +289,6 @@ ORDER BY ?nama`
     ],
   }
 }
-
-// ── F3: Detail Layanan ────────────────────────────────────
 
 export async function getDetailLayananWithDebug(kode, suffix) {
   const qUniv = `
@@ -519,8 +509,6 @@ SELECT ?sebelum ?namaSebelum ?sesudah ?namaSesudah WHERE {
   }
 }
 
-// ── F4: Perbandingan Dua RS ───────────────────────────────
-
 export async function getBandingkanWithDebug(kode) {
   const props = ['jadwalOperasional', 'waktuKedatangan', 'durasiTindakan',
                  'durasiObservasi', 'durasiPersiapan', 'persetujuanTindakan',
@@ -600,8 +588,6 @@ export async function getBandingkanWithDebug(kode) {
     ],
   }
 }
-
-// ── F5: Halaman Darurat ───────────────────────────────────
 
 export async function getDataDaruratWithDebug() {
   const qRS = `

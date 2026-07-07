@@ -1,6 +1,3 @@
-// ============================================================
-// app/page.jsx — Halaman Beranda SEHATi
-// ============================================================
 export const dynamic = 'force-dynamic'
 
 import Link from 'next/link'
@@ -208,7 +205,6 @@ export default async function HomePage() {
   return (
     <div className="bg-[#f7fafa]">
 
-      {/* ── HERO ── */}
       <section className="relative overflow-hidden bg-[#0e2233] min-h-[90vh] flex items-center">
         <div className="absolute inset-0 z-0">
           <Image
@@ -266,7 +262,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── STATS ── */}
       <section className="bg-white border-b border-[#dde8ec]">
         <div className="max-w-280 mx-auto px-5 md:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4">
@@ -288,7 +283,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── TENTANG SISTEM ── */}
       <section className="py-16 bg-[#f7fafa]">
         <div className="max-w-280 mx-auto px-5 md:px-8">
 
@@ -371,7 +365,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── INFO TERSEDIA ── */}
       <section className="py-16 bg-white">
         <div className="max-w-280 mx-auto px-5 md:px-8">
           <div className="mb-14">
@@ -415,7 +408,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── FEATURES ── */}
       <section className="py-16 bg-[#0e2233]">
         <div className="max-w-280 mx-auto px-5 md:px-8">
           <p className="text-[11px] font-medium tracking-[0.14em] uppercase text-[#7de8c2] mb-3">
@@ -461,7 +453,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── STEPS ── */}
       <section className="py-16 bg-white">
         <div className="max-w-280 mx-auto px-5 md:px-8">
           <div className="grid md:grid-cols-2 gap-16 items-start">
@@ -505,7 +496,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── HOSPITALS ── */}
       <section className="py-16 bg-[#f7fafa]">
         <div className="max-w-280 mx-auto px-5 md:px-8">
           <div className="mb-14">
@@ -581,7 +571,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── DISCLAIMER ── */}
       <section className="bg-[#fffbf0] border-y border-[#e8d48a]">
         <div className="max-w-280 mx-auto px-5 md:px-8 py-8 flex items-start gap-5">
           <div className="shrink-0 w-10 h-10 bg-[#f5d76e] rounded-full flex items-center justify-center text-[#7a5800] mt-0.5">
@@ -598,7 +587,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── CTA PENUTUP ── */}
       <section className="relative bg-[#0e2233] py-18 overflow-hidden text-center">
         <div className="absolute pointer-events-none"
           style={{

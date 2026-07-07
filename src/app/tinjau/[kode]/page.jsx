@@ -26,7 +26,6 @@ const tdLabel = `${tdBase} font-medium text-[#4f6370] w-[28%] wrap-break-word`
 const tdVal   = `${tdBase} text-[#0e2233] wrap-break-word`
 const tdLabelAmber = `${tdBase} font-semibold text-[#d97706] w-[28%] wrap-break-word`
 
-// ─── th header: border-b saja dari border-[#dde8ec], border-l pakai style inline ───
 const thBase   = 'px-3 py-2.5 text-[11px] border-b border-[#dde8ec]'
 const thLabel  = `${thBase} text-left font-medium text-[#8fa3b0]`
 const thRS     = `${thBase} text-center font-semibold text-[#2aab7e] wrap-break-word`
@@ -60,7 +59,6 @@ function TinjauList({ title, a, b, namaA, namaB }) {
       <thead>
         <tr className="bg-[#fafbfc]">
           <th className={thLabel}>Item</th>
-          {/* border-l pakai style inline agar tidak bentrok dengan border-b dari thRS */}
           <th className={thRS} style={{ borderLeftWidth: '1px', borderLeftColor: '#dde8ec', borderLeftStyle: 'solid' }}>{namaA}</th>
           <th className={thRS} style={{ borderLeftWidth: '1px', borderLeftColor: '#dde8ec', borderLeftStyle: 'solid' }}>{namaB}</th>
         </tr>

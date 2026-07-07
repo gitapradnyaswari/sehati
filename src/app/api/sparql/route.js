@@ -1,6 +1,3 @@
-// src/app/api/sparql/route.js
-// Satu endpoint untuk semua aksi SPARQL, dibedakan lewat ?action=...
-
 import { NextResponse } from 'next/server'
 import {
   cariLayananPerRSWithDebug,
@@ -17,7 +14,6 @@ export async function GET(req) {
 
   try {
 
-    // cari: pencarian + filter (atau semua layanan kalau kosong)
     if (action === 'cari') {
       const q = searchParams.get('q') || ''
 
@@ -28,14 +24,12 @@ export async function GET(req) {
       const kelompok   = searchParams.getAll('kelompok').flatMap(v => v.split(',')).filter(Boolean)
       const penjaminan = searchParams.getAll('penjaminan').flatMap(v => v.split(',')).filter(Boolean)
 
-      // kalau tidak ada filter sama sekali, ambil semua
       const noFilter = !q && !keluhan.length && !kondisi.length && !wilayah.length
         && !jenis.length && !kelompok.length && !penjaminan.length
 
       const { results, debug } = noFilter
         ? await getAllLayananPerRSWithDebug()
         : await cariLayananPerRSWithDebug(q, {
-            // array kosong dikirim sebagai undefined
             keluhan:      keluhan.length      ? keluhan      : undefined,
             kondisi:      kondisi.length      ? kondisi      : undefined,
             wilayah:      wilayah.length      ? wilayah      : undefined,
@@ -47,13 +41,11 @@ export async function GET(req) {
       return NextResponse.json({ results, count: results.length, sparqlDebug: { queries: debug } })
     }
 
-    // filter-opsi: isi dropdown filter
     if (action === 'filter-opsi') {
       const { keluhan, kondisi, wilayah, debug } = await getOpsiFilterWithDebug()
       return NextResponse.json({ keluhan, kondisi, wilayah, sparqlDebug: { queries: debug } })
     }
 
-    // layanan: detail satu layanan di satu RS
     if (action === 'layanan') {
       const kode   = searchParams.get('kode')
       const suffix = (searchParams.get('rs') || 'RSBM').toUpperCase()
@@ -64,7 +56,6 @@ export async function GET(req) {
       return NextResponse.json({ ...data, sparqlDebug: { queries: data.debug } })
     }
 
-    // rs-layanan: cari RS mana saja yang punya layanan ini
     if (action === 'rs-layanan') {
       const kode = searchParams.get('kode')
       if (!kode) return NextResponse.json([], { status: 400 })
@@ -77,7 +68,6 @@ export async function GET(req) {
       return NextResponse.json(result)
     }
 
-    // bandingkan: detail satu layanan di semua RS
     if (action === 'bandingkan') {
       const kode = searchParams.get('kode')
       if (!kode) return NextResponse.json({ error: 'kode wajib diisi' }, { status: 400 })
@@ -85,13 +75,11 @@ export async function GET(req) {
       return NextResponse.json({ ...data, sparqlDebug: { queries: data.debug } })
     }
 
-    // darurat: data kontak IGD semua RS
     if (action === 'darurat') {
       const result = await getDataDaruratWithDebug()
       return NextResponse.json({ ...result, sparqlDebug: { queries: result.debug } })
     }
 
-    // action tidak dikenal
     return NextResponse.json({ error: 'action tidak dikenal' }, { status: 400 })
 
   } catch (e) {

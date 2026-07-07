@@ -20,11 +20,6 @@ const EMPTY_FILTERS = {
   wilayah:    null,
 }
 
-// ─────────────────────────────────────────────────────────────
-// DropdownPortal — render panel ke document.body agar tidak
-// terpotong oleh overflow/z-index container manapun.
-// Posisi dihitung dari getBoundingClientRect() tombol trigger.
-// ─────────────────────────────────────────────────────────────
 function DropdownPortal({ triggerRef, children, open }) {
   const [style, setStyle] = useState({})
   const [mounted, setMounted] = useState(false)
@@ -36,17 +31,15 @@ function DropdownPortal({ triggerRef, children, open }) {
 
     const calc = () => {
       const rect        = triggerRef.current.getBoundingClientRect()
-      const PANEL_W     = 224   // w-56 = 14rem = 224px
-      const PANEL_H     = 260   // max tinggi panel
+      const PANEL_W     = 224
+      const PANEL_H     = 260
       const spaceBelow  = window.innerHeight - rect.bottom
       const spaceRight  = window.innerWidth  - rect.left
 
-      // Buka ke atas jika ruang bawah kurang
       const top = spaceBelow >= PANEL_H
         ? rect.bottom + window.scrollY + 6
         : rect.top    + window.scrollY - PANEL_H - 6
 
-      // Buka ke kiri jika ruang kanan kurang
       const left = spaceRight >= PANEL_W
         ? rect.left   + window.scrollX
         : rect.right  + window.scrollX - PANEL_W
@@ -84,7 +77,6 @@ function FilterDropdown({ label, icon: Icon, opsi, value, onChange, opsiLoading 
   const panelRef   = useRef(null)
   const inputRef   = useRef(null)
 
-  // Tutup saat klik di luar trigger DAN panel
   useEffect(() => {
     const handler = (e) => {
       if (
@@ -113,7 +105,6 @@ function FilterDropdown({ label, icon: Icon, opsi, value, onChange, opsiLoading 
 
   return (
     <div className="relative">
-      {/* Tombol trigger */}
       <button
         ref={triggerRef}
         type="button"
@@ -141,7 +132,6 @@ function FilterDropdown({ label, icon: Icon, opsi, value, onChange, opsiLoading 
         }
       </button>
 
-      {/* Panel di-portal ke body — bebas dari overflow container */}
       <DropdownPortal triggerRef={triggerRef} open={open}>
         <div
           ref={panelRef}
@@ -258,13 +248,11 @@ export default function JelajahiPage() {
           return
         }
       } catch {
-        // lanjut ke default
       }
     }
     fetchResults(EMPTY_FILTERS)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Reset ke halaman 1 setiap kali hasil pencarian berubah
   useEffect(() => { setPage(1) }, [results])
 
   const handleChange = (key, nilai) => {
@@ -280,7 +268,6 @@ export default function JelajahiPage() {
     fetchResults(next)
   }
 
-  // ── Pagination ──
   const totalPages = Math.max(1, Math.ceil(results.length / PER_PAGE))
   const paginated  = results.slice((page - 1) * PER_PAGE, page * PER_PAGE)
 

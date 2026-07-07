@@ -256,13 +256,12 @@ export default function CariPage() {
       }
     }
     doSearch('', [], [], [], [], [], [])
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     saveState(keyword, jenisLayanan, kelompok, penjaminan, keluhan, kondisi, wilayah)
   }, [keyword, jenisLayanan, kelompok, penjaminan, keluhan, kondisi, wilayah])
 
-  // Reset ke halaman 1 setiap kali hasil pencarian berubah
   useEffect(() => { setPage(1) }, [results])
 
   const handleSearch = () => {
@@ -282,7 +281,6 @@ export default function CariPage() {
     setWilayah([])
   }
 
-  // ── Pagination ──
   const totalPages = Math.max(1, Math.ceil(results.length / PER_PAGE))
   const paginated  = results.slice((page - 1) * PER_PAGE, page * PER_PAGE)
 
